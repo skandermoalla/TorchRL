@@ -2,20 +2,27 @@
 
 ## Cloning the repository
 
-Clone the git repository with its submodules.
+Clone the git repository with its submodules (TorchRL and Tensordict).
 
 ```bash
 git clone <URL/SSH> torchrl --recurse-submodules
 cd torchrl
 ```
+We will refer the absolute path to the root of the repository as `PROJECT_ROOT`.
 
-Add your forks to the submodules.
+Create forks of TorchRL and TensorDict if not already done and add your forks to the submodules.
 
 ```bash
+cd repos/tensordict
+git remote add fork <your-fork-URL/SSH>
+git fetch fork
 
+cd ../rl
+git remote add fork <your-fork-URL/SSH>
+git fetch fork
 ```
 
-We will refer the absolute path to the root of the repository as `PROJECT_ROOT`.
+Work on your forks as if they were not submodules and track your commits on your forks.
 
 ## Creating the environment
 

@@ -1,23 +1,5 @@
 # Installation with Docker (OCI container)
 
-8. Push your generic images (run and dev with the root user) to some registry if not done already.
-   This will be handy for you, for sharing it with your teammates, and when you open-source your project later.
-    1. Find a public (or private for teammates) repository to push your generic images.
-       E.g., your personal Docker Hub registry has free unlimited public repositories.
-    2. Push the generic images to the registry you chose.
-       ```bash
-       ./template.sh push_generic FULL_IMAGE_NAME_WITH_REGISTRY
-       ```
-    3. Add this link to the TODO ADD PULL_IMAGE_NAME in
-       the [obtaining/building the environment](#obtainingbuilding-the-environment)
-       section of the README.
-       (**EPFL Note**: _you can give the link to your generic image on your lab's registry to your teammates
-       e.g., ic-registry.epfl.ch/your-lab/your-gaspar/torchrl_.)
-
-9. Remove the template sections that you've completed from this file (indicated with **TEMPLATE TODO**)
-   to only leave the instructions relevant to the next users.
-10. Go back to the root README for the rest of the instructions to set the template up.
-
 ## The environment
 
 We provide the following guides for obtaining/building and running the environment:
@@ -46,12 +28,27 @@ We provide the following guides for obtaining/building and running the environme
 
 ### Clone the repository
 
-Clone the git repository.
+Clone the git repository with its submodules (TorchRL and Tensordict).
 
 ```bash
-git clone <URL/SSH> torchrl
+git clone <URL/SSH> torchrl --recurse-submodules
 cd torchrl
 ```
+We will refer the absolute path to the root of the repository as `PROJECT_ROOT`.
+
+Create forks of TorchRL and TensorDict if not already done and add your forks to the submodules.
+
+```bash
+cd repos/tensordict
+git remote add fork <your-fork-URL/SSH>
+git fetch fork
+
+cd ../rl
+git remote add fork <your-fork-URL/SSH>
+git fetch fork
+```
+
+Work on your forks as if they were not submodules and track your commits on your forks.
 
 ### Obtain/build the images
 
