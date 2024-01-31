@@ -1,12 +1,23 @@
-name: template-project-name
+name: torchrl
 channels:
+  - pytorch
   - conda-forge
 dependencies:
   - python=3.10
+  - pytorch
+  - matplotlib
+  - swig
+  - glfw
+  - imageio
+  - pytest
   - pip
   - pip:
       - hydra-core
       - tqdm
       - wandb
+      - wandb[sweeps]
+      - gymnasium[atari,accept-rom-license,box2d,classic-control,mujoco]
+      - moviepy
+      - imageio
       - pre-commit
       - black

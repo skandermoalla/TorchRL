@@ -118,6 +118,10 @@ RUN pip freeze > ${DEPENDENCIES_DIR}/requirements-raw-before-pip-install-r.txt
 RUN pip install -r ${PIP_REQS_FILE}
 RUN pip freeze > ${DEPENDENCIES_DIR}/requirements-raw-after-pip-install-r.txt
 
+# Copy torchrl and tensordict update scripts.
+COPY dependencies/update-tensordict.sh ${DEPENDENCIES_DIR}/update-tensordict.sh
+COPY dependencies/update-torchrl.sh ${DEPENDENCIES_DIR}/update-torchrl.sh
+
 # Optional optimizations.
 # Enable Intel MKL optimizations on AMD CPUs.
 # https://danieldk.eu/Posts/2020-08-31-MKL-Zen.html

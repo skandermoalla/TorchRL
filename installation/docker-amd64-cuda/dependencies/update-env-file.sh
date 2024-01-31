@@ -11,4 +11,6 @@ ENV_FILE="${PROJECT_ROOT_AT}"/installation/docker-amd64-cuda/dependencies/requir
 pip freeze \
   | sed "/-e.*/d" \
   | sed "s/ @.*//g" \
+  | sed "/tensordict/d" \
+  | sed "/torchrl/d" \
   > "${ENV_FILE}"

@@ -1,65 +1,18 @@
 # Installation with conda
 
-## Template getting started
-
-> [!IMPORTANT]
-> **TEMPLATE TODO:**
-> Follow the instructions then delete this section.
-
-This template provides a minimal `environment.yml` file for setting a conda environment.
-Follow the steps below to get started.
-Some steps will send you to different sections of the document.
-It may feel like jumping back and forth, but everything should read nicely after the setup
-for your future users (and yourself).
-
-1. Choose the platform and hardware acceleration that you will build the environment for.
-   You have to pick one as fully specified conda environment files are not trivially
-   portable across platforms and hardware accelerations.
-   Packages are different for different platforms and hardware accelerations,
-   so you cannot freeze an environment used for a platform and create it in another.
-
-   The default platform is macOS on Apple Silicon `osx-arm64` to get support for `mps` hardware acceleration
-   (reflected in the name of the directory `conda-osx-arm64-mps` by default).
-   To edit it, run
-   ```bash
-   # When in the PROJECT_ROOT directory.
-   # For examples run:
-   ./installation/edit-platform-and-acceleration.sh
-   # To do the change run:
-   ./installation/edit-platform-and-acceleration.sh conda CURR_PLATFORM CURR_ACCELERATION NEW_PLATFORM NEW_ACCELERATION
-   # For a list of available platforms you can see the installers below
-   # https://anaconda.org/pytorch/pytorch
-   # The hardware acceleration will be determined by the packages you install.
-   # E.g. if you install PyTorch with CUDA, set the acceleration to cuda.
-   ```
-   The template currently supports setting only a single platform & hardware acceleration combination.
-   You can always adapt it to have multiple platforms (you will need separate environment files,
-   ideally test them, and ensure your results/conclusions hold across platforms.)
-2. Specify your initial dependencies.
-   The Python version and package name have already been filled by the `fill-template.sh` script.
-   Follow the [instructions to maintain the environment](#maintaining-the-environment)
-   up to (including) the manual editing section without actually creating the environment.
-   Commit so that you can get back to this file to edit it manually.
-3. Create the environment following the user
-   [instructions to create the environment](#creating-the-environment) below.
-4. Get familiar with running the environment following the user [instructions to
-   run the environment](#running-the-code-in-the-environment).
-5. If everything works fine,
-   (we suggest checking that all of your dependencies are there with `conda list`,
-   and trying to import the important ones),
-   then pin the dependencies you got following the [freeze the environment](#freeze-the-environment) section.
-   You can then add more dependencies as your project grows following
-   the [instructions to maintain the environment](#maintaining-the-environment).
-   Commit.
-6. Go back to the root README for the rest of the instructions to set the template up.
-
 ## Cloning the repository
 
-Clone the git repository.
+Clone the git repository with its submodules.
 
 ```bash
-git clone <URL/SSH> template-project-name
-cd template-project-name
+git clone <URL/SSH> torchrl --recurse-submodules
+cd torchrl
+```
+
+Add your forks to the submodules.
+
+```bash
+
 ```
 
 We will refer the absolute path to the root of the repository as `PROJECT_ROOT`.
@@ -90,33 +43,13 @@ Create the environment with
 mamba env create --file installation/conda-osx-arm64-mps/environment.yml
 ```
 
-Install the project with
+Install TensorDict and TorchRL in development mode with
 
 ```bash
-# Activate the environment
-mamba activate template-project-name
-# When in the PROJECT_ROOT directory.
-pip install -e .
+mamba activate torchrl
+./installation/conda-osx-arm64-mps/update-tensordict.sh
+./installation/conda-osx-arm64-mps/update-torchrl.sh
 ```
-
-## Running code in the environment
-
-```bash
-mamba activate template-project-name
-```
-
-Run scripts from the `PROJECT_ROOT` directory.
-Here are some examples.
-
-```bash
-# When in the PROJECT_ROOT directory.
-# template_experiment is an actual script that you can run.
-python -m template_package_name.template_experiment some_arg=some_value
-zsh reproducibility-scripts/template-experiment.sh
-```
-
-The environment is set up.
-Return to the root README for the rest of the instructions to run our experiments.
 
 ## Maintaining the environment
 
@@ -167,9 +100,9 @@ After manually editing the `environment.yml` file, you need to recreate the envi
 ```bash
 # When in the PROJECT_ROOT directory.
 mamba deactivate
-mamba env remove --name template-project-name
+mamba env remove --name torchrl
 mamba env create --file installation/conda-osx-arm64-mps/environment.yml
-mamba activate template-project-name
+mamba activate torchrl
 ```
 
 ### Interactively (while developing)

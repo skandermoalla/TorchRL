@@ -13,8 +13,12 @@ conda env export --file "$ENVIR_FILE"
 
 # Delete the path line.
 sed -i.deleteme "$ d" "$ENVIR_FILE"
+
+# Delete torchrl and tensordict and installed manually.
+sed -i.deleteme "/tensordict/d" "$ENVIR_FILE"
+sed -i.deleteme "/torchrl/d" "$ENVIR_FILE"
+
 # Set the package to a local installation.
-sed -i.deleteme "/template-project-name==/d" "$ENVIR_FILE"
 # .deleteme is a trick to make sed work the same way on both Linux and OSX.
 # https://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-bsd-and-linux
 rm "${ENVIR_FILE}.deleteme"

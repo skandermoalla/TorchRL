@@ -3,3 +3,4 @@
 zsh                 # Required.
 openssl             # Required.
 htop                # Useful.
+swig

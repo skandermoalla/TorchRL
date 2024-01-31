@@ -1,0 +1,6 @@
+[submodule "repos/rl"]
+	path = repos/rl
+	url = https://github.com/pytorch/rl.git
+[submodule "repos/tensordict"]
+	path = repos/tensordict
+	url = https://github.com/pytorch/tensordict.git

@@ -3,3 +3,8 @@ tqdm
 wandb
 pre-commit
 black
+moviepy
+imageio
+plotly
+gymnasium[atari,accept-rom-license,box2d,classic-control,mujoco]
+pytest

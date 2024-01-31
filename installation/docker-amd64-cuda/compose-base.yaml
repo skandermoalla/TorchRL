@@ -2,9 +2,9 @@ services:
   args-run-root:
     build:
       args:
-        BASE_IMAGE: nvcr.io/nvidia/pytorch:23.10-py3
-        # Pytorch '2.1.0a0+32f93b1',  Python 3.10.
-        # https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-23-10.html
+        BASE_IMAGE: nvcr.io/nvidia/pytorch:24.01-py3
+        # Pytorch '2.2.0a0+6a1a893',  Python 3.10.
+        # https://docs.nvidia.com/deeplearning/frameworks/pytorch-release-notes/rel-23-12.html
         # https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch
         GIT_IMAGE: alpine/git:2.40.1            # https://hub.docker.com/r/alpine/git/tags
         BASE_ENTRYPOINT: /opt/nvidia/nvidia_entrypoint.sh
