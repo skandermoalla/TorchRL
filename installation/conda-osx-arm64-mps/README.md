@@ -47,8 +47,8 @@ Install TensorDict and TorchRL in development mode with
 
 ```bash
 mamba activate torchrl
-./installation/conda-osx-arm64-mps/update-tensordict.sh
-./installation/conda-osx-arm64-mps/update-torchrl.sh
+./installation/conda-osx-arm64-mps/install-local-tensordict.sh
+./installation/conda-osx-arm64-mps/install-local-torchrl.sh
 ```
 
 ## Maintaining the environment
