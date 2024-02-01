@@ -24,6 +24,10 @@ git fetch fork
 
 Work on your forks as if they were not submodules and track your commits on your forks.
 
+For convenience,
+you can set your local `main` branch to track your fork's main branch and create another one `origin-main`
+to track the original repo's main branch.
+
 ## Creating the environment
 
 **Prerequisites**
