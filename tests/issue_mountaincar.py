@@ -36,7 +36,11 @@ if __name__ == "__main__":
     )
 
     collector = SyncDataCollector(
-        env, policy=policy_module, frames_per_batch=N * 4, total_frames=100 * N * 4, reset_at_each_iter=True
+        env,
+        policy=policy_module,
+        frames_per_batch=N * 4,
+        total_frames=100 * N * 4,
+        reset_at_each_iter=True,
     )
     max_step_count = 200
     for batches in collector:
