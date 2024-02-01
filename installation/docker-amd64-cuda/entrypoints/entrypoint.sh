@@ -29,11 +29,8 @@ if [ -n "${SKIP_INSTALL_PROJECT}" ]; then
   # Best practice is to install the project.
   echo "[TEMPLATE INFO] Skipping the installation of the project."
 else
-  # Root can't write on shared storage (root_squash).
-  chmod -R o+w "${PROJECT_ROOT_AT}/repos"
-  echo "${PASSWD}" | sudo -S zsh "${DEPENDENCIES_DIR}"/install-local-tensordict.sh
-  echo "${PASSWD}" | sudo -S zsh "${DEPENDENCIES_DIR}"/install-local-torchrl.sh
-  chmod -R o-w "${PROJECT_ROOT_AT}/repos"
+  zsh "${DEPENDENCIES_DIR}"/install-local-tensordict.sh
+  zsh "${DEPENDENCIES_DIR}"/install-local-torchrl.sh
 fi
 
 # Login options, e.g., wandb.
