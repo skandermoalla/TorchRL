@@ -1,6 +1,5 @@
 from tensordict.nn import TensorDictModule
 from torch import nn
-from torchrl.collectors import SyncDataCollector
 from torchrl.envs import (
     EnvCreator,
     ExplorationType,
@@ -37,25 +36,13 @@ def build_actor(env):
 
 if __name__ == "__main__":
     env = SerialEnv(n_env, EnvCreator(lambda: build_cpu_single_env()), device=device)
-    env = TransformedEnv(env)
-
     policy_module = build_actor(env)
     policy_module.to(device)
-    dummy_t = env.reset()
-    policy_module(dummy_t)
+    policy_module(env.reset())
 
-    collector = SyncDataCollector(
-        env,
-        policy=policy_module,
-        frames_per_batch=(max_step+3) * n_env,
-        total_frames=100 * (max_step+3) * n_env,
-        reset_at_each_iter=True,
-        device=device,
-    )
-    max_step_count = max_step
-    for batches in collector:
+    for i in range(100):
+        batches = env.rollout((max_step + 3), policy=policy_module, break_when_any_done=False)
         max_step_count = batches["next", "single_env_step_count"].max().item()
-
         if max_step_count > max_step:
             print("Problem!")
             print(max_step_count)
