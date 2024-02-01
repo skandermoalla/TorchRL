@@ -1,4 +1,4 @@
-pushd repos/rl || exit
+pushd "${PROJECT_ROOT_AT}"/repos/rl || exit
 rm -rf dist/
 rm -rf build/
 rm -rf torchrl.egg-info

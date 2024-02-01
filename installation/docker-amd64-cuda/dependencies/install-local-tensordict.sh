@@ -1,4 +1,4 @@
-pushd repos/tensordict || exit
+pushd "${PROJECT_ROOT_AT}"/repos/tensordict || exit
 rm -rf dist/
 rm -rf build/
 rm -rf tensordict.egg-info
