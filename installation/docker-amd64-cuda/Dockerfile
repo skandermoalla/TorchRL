@@ -119,8 +119,8 @@ RUN pip install -r ${PIP_REQS_FILE}
 RUN pip freeze > ${DEPENDENCIES_DIR}/requirements-raw-after-pip-install-r.txt
 
 # Copy torchrl and tensordict update scripts.
-COPY dependencies/update-tensordict.sh ${DEPENDENCIES_DIR}/install-local-tensordict.sh
-COPY dependencies/update-torchrl.sh ${DEPENDENCIES_DIR}/install-local-torchrl.sh
+COPY dependencies/install-local-tensordict.sh ${DEPENDENCIES_DIR}/install-local-tensordict.sh
+COPY dependencies/install-local-torchrl.sh ${DEPENDENCIES_DIR}/install-local-torchrl.sh
 
 # Optional optimizations.
 # Enable Intel MKL optimizations on AMD CPUs.
