@@ -174,7 +174,7 @@ Then you can:
     # template_experiment is an actual script that you can run.
     ./template.sh run your_command
     ```
-  
+
   These containers start with the entrypoint and then run the command you specified.
   By default, they are automatically removed after they exit.
 
