@@ -1,55 +1,43 @@
 from tensordict.nn import TensorDictModule
 from torch import nn
-from torchrl.envs import ExplorationType, SerialEnv
-from torchrl.collectors import SyncDataCollector
-from torchrl.envs import RewardSum, StepCounter, TransformedEnv, ParallelEnv, EnvCreator
+from torchrl.envs import ExplorationType
+from torchrl.envs import StepCounter, TransformedEnv, ParallelEnv, EnvCreator
 from torchrl.envs.libs.gym import GymEnv
 from torchrl.modules import ProbabilisticActor, OneHotCategorical
 
-N = 202
-env_id = "MountainCar-v0"
+max_step = 200
+env_id = "CartPole-v1"
 device = "cuda:0"
 
 
 def build_single_env():
     env = GymEnv(env_id)
     env = TransformedEnv(env)
-    env.append_transform(StepCounter(max_steps=N))
+    env.append_transform(StepCounter(max_steps=max_step))
     return env
 
 
-if __name__ == "__main__":
-    env = ParallelEnv(4, EnvCreator(lambda: build_single_env()), device=device)
-    env = TransformedEnv(env)
-
-    policy_module = ProbabilisticActor(
+def build_actor(env):
+    return ProbabilisticActor(
         module=TensorDictModule(
-            nn.LazyLinear(env.action_spec.space.n, device=device),
+            nn.LazyLinear(env.action_spec.space.n),
             in_keys=["observation"],
             out_keys=["logits"],
         ),
         spec=env.action_spec,
         distribution_class=OneHotCategorical,
-        in_keys=["logits"],  # in_keys of the distribution.
+        in_keys=["logits"],
         default_interaction_type=ExplorationType.RANDOM,
     )
-    policy_module(env.reset())
 
-    collector = SyncDataCollector(
-        env,
-        policy=policy_module,
-        frames_per_batch=N * 4,
-        total_frames=100 * N * 4,
-        reset_at_each_iter=True,
-        device=device,
-    )
-    max_step_count = 200
-    for batches in collector:
-        batches = env.rollout(N)
-        max_step_count = batches["next", "step_count"].max().item()
-        if max_step_count > 200:
-            print("Problem!")
-            print(max_step_count)
-            break
-    else:
-        print("No problem!")
+
+if __name__ == "__main__":
+    env = ParallelEnv(4, EnvCreator(lambda: build_single_env()), device=device)
+    env = TransformedEnv(env)
+    # Comment the line above to remove the problem.
+
+    policy_module = build_actor(env)
+    policy_module.to(device)
+    policy_module(env.reset())
+    for i in range(100):
+        batches = env.rollout(max_step + 3, policy=policy_module, break_when_any_done=False)
