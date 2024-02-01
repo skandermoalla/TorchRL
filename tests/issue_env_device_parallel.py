@@ -42,21 +42,20 @@ def build_actor(env):
 
 
 if __name__ == "__main__":
-    env = SerialEnv(n_env, EnvCreator(lambda: build_cpu_single_env()), device=device)
-    # env = TransformedEnv(env)
+    env = ParallelEnv(n_env, EnvCreator(lambda: build_cpu_single_env()), device=device)
     policy_module = build_actor(env)
     policy_module.to(device)
     policy_module(env.reset())
-    # collector = SyncDataCollector(
-    #     env,
-    #     policy=policy_module,
-    #     frames_per_batch=(max_step + 3) * 4,
-    #     total_frames=10 * (max_step + 3) * 4,
-    #     reset_at_each_iter=True,
-    #     device=device,
-    # )
-    for i in range(10):
-        # for batches in collector:
+    collector = SyncDataCollector(
+        env,
+        policy=policy_module,
+        frames_per_batch=(max_step + 3) * 4,
+        total_frames=10 * (max_step + 3) * 4,
+        reset_at_each_iter=True,
+        device=device,
+    )
+    # for i in range(10):
+    for batches in collector:
         batches = env.rollout((max_step + 3), policy=policy_module, break_when_any_done=False)
         # batches = collector.next()
         max_step_count = batches["next", "step_count"].max().item()

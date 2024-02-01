@@ -1,6 +1,6 @@
 from tensordict.nn import TensorDictModule
 from torch import nn
-from torchrl.envs import ExplorationType
+from torchrl.envs import ExplorationType, SerialEnv
 from torchrl.envs import StepCounter, TransformedEnv, ParallelEnv, EnvCreator
 from torchrl.envs.libs.gym import GymEnv
 from torchrl.modules import ProbabilisticActor, OneHotCategorical
@@ -39,5 +39,5 @@ if __name__ == "__main__":
     policy_module = build_actor(env)
     policy_module.to(device)
     policy_module(env.reset())
-    for i in range(100):
+    for i in range(10):
         batches = env.rollout(max_step + 3, policy=policy_module, break_when_any_done=False)
