@@ -5,7 +5,6 @@ from torchrl.envs import (
     ExplorationType,
     StepCounter,
     TransformedEnv,
-    SerialEnv,
     ParallelEnv,
 )
 from torchrl.envs.libs.gym import GymEnv
