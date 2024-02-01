@@ -10,7 +10,7 @@ from torchrl.envs import (
 from torchrl.envs.libs.gym import GymEnv
 from torchrl.modules import OneHotCategorical, ProbabilisticActor
 
-max_step = 200
+max_step = 10
 n_env = 4
 env_id = "CartPole-v1"
 device = "cuda:0"
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     policy_module.to(device)
     policy_module(env.reset())
 
-    for i in range(100):
+    for i in range(10):
         batches = env.rollout((max_step + 3), policy=policy_module, break_when_any_done=False)
         max_step_count = batches["next", "step_count"].max().item()
         if max_step_count > max_step:
