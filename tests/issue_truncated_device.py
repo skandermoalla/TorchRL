@@ -5,7 +5,7 @@ from torchrl.envs import StepCounter, TransformedEnv, ParallelEnv, EnvCreator
 from torchrl.envs.libs.gym import GymEnv
 from torchrl.modules import ProbabilisticActor, OneHotCategorical
 
-max_step = 200
+max_step = 10
 env_id = "CartPole-v1"
 device = "cuda:0"
 

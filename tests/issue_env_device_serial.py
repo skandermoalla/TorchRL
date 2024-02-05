@@ -44,13 +44,19 @@ if __name__ == "__main__":
     policy_module(env.reset())
 
     for i in range(10):
-        batches = env.rollout((max_step + 3), policy=policy_module, break_when_any_done=False)
+        batches = env.rollout((2 * max_step + 3), policy=policy_module, break_when_any_done=False)
         max_step_count = batches["next", "step_count"].max().item()
-        print(max_step_count)
-        print(batches["next", "step_count"])
+        # print(max_step_count)
+        # print(batches["next", "step_count"])
         if max_step_count > max_step:
-            print("Problem!")
+            print("Problem 1!")
             print(max_step_count)
+            print(batches["next", "step_count"])
+            break
+        elif max_step_count < max_step:
+            print("Problem 2!")
+            print(max_step_count)
+            print(batches["next", "step_count"])
             break
     else:
         print("No problem!")
