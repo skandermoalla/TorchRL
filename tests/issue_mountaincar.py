@@ -14,12 +14,12 @@ device = "cuda:0"
 def build_single_env():
     env = GymEnv(env_id)
     env = TransformedEnv(env)
-    env.append_transform(StepCounter(max_steps=N, truncated_key="truncated_sc"))
+    env.append_transform(StepCounter(max_steps=N))
     return env
 
 
 if __name__ == "__main__":
-    env = ParallelEnv(4, EnvCreator(lambda: build_single_env()), device=device)
+    env = ParallelEnv(4, lambda: build_single_env(), device=device)
     # env = TransformedEnv(env)
     # Comment the line above and the problem goes away.
 
@@ -40,8 +40,8 @@ if __name__ == "__main__":
         env,
         policy=policy_module,
         frames_per_batch=N * 4,
-        total_frames=100 * N * 4,
-        reset_at_each_iter=True,
+        total_frames=10 * N * 4,
+        reset_at_each_iter=False,
         device=device,
     )
     max_step_count = 200

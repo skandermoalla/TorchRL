@@ -38,7 +38,7 @@ def build_actor(env):
 
 
 if __name__ == "__main__":
-    env = SerialEnv(n_env, EnvCreator(lambda: build_cpu_single_env()), device=device)
+    env = SerialEnv(n_env, lambda: build_cpu_single_env(), device=device)
     policy_module = build_actor(env)
     policy_module.to(device)
     policy_module(env.reset())

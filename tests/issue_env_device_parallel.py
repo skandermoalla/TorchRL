@@ -38,7 +38,7 @@ def build_actor(env):
 
 
 if __name__ == "__main__":
-    env = ParallelEnv(n_env, EnvCreator(lambda: build_cpu_single_env()), device=device)
+    env = ParallelEnv(n_env, lambda: build_cpu_single_env(), device=device)
     env = TransformedEnv(env)
     policy_module = build_actor(env)
     policy_module.to(device)

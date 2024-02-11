@@ -32,7 +32,7 @@ def build_actor(env):
 
 
 if __name__ == "__main__":
-    env = ParallelEnv(4, EnvCreator(lambda: build_single_env()), device=device)
+    env = ParallelEnv(4, lambda: build_single_env(), device=device)
     env = TransformedEnv(env)
     # Comment the line above to remove the problem.
 
