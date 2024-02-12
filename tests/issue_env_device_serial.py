@@ -1,19 +1,15 @@
 from tensordict.nn import TensorDictModule
 from torch import nn
-from torchrl.envs import (
-    EnvCreator,
-    ExplorationType,
-    StepCounter,
-    TransformedEnv,
-    SerialEnv,
-)
+from torchrl.envs import ExplorationType, SerialEnv, StepCounter, TransformedEnv
 from torchrl.envs.libs.gym import GymEnv
 from torchrl.modules import OneHotCategorical, ProbabilisticActor
 
-max_step = 10
+max_step = 210
 n_env = 4
-env_id = "CartPole-v1"
-device = "cuda:0"
+env_id = "MountainCar-v0"
+NATIVE_TRUNCATION = 200
+device = "mps"
+max_step = min(max_step, NATIVE_TRUNCATION)
 
 
 def build_cpu_single_env():
@@ -39,24 +35,24 @@ def build_actor(env):
 
 if __name__ == "__main__":
     env = SerialEnv(n_env, lambda: build_cpu_single_env(), device=device)
+    # env = TransformedEnv(env)
     policy_module = build_actor(env)
     policy_module.to(device)
     policy_module(env.reset())
 
     for i in range(10):
-        batches = env.rollout((2 * max_step + 3), policy=policy_module, break_when_any_done=False)
+        batches = env.rollout((max_step + 3), policy=policy_module, break_when_any_done=False)
         max_step_count = batches["next", "step_count"].max().item()
-        # print(max_step_count)
-        # print(batches["next", "step_count"])
         if max_step_count > max_step:
-            print("Problem 1!")
             print(max_step_count)
-            print(batches["next", "step_count"])
+            print(batches["next", "step_count"][:, -5:])
+            print("Problem! Got higher than max step count.")
             break
         elif max_step_count < max_step:
-            print("Problem 2!")
             print(max_step_count)
-            print(batches["next", "step_count"])
+            print(batches["next", "step_count"][:, -5:])
+            print("Problem: Got less than max step count!")
             break
     else:
+        print(batches["next", "step_count"][:, -5:])
         print("No problem!")

@@ -1,13 +1,19 @@
 from tensordict.nn import TensorDictModule
 from torch import nn
-from torchrl.envs import ExplorationType, SerialEnv
-from torchrl.envs import StepCounter, TransformedEnv, ParallelEnv, EnvCreator
+from torchrl.envs import (
+    EnvCreator,
+    ExplorationType,
+    ParallelEnv,
+    SerialEnv,
+    StepCounter,
+    TransformedEnv,
+)
 from torchrl.envs.libs.gym import GymEnv
-from torchrl.modules import ProbabilisticActor, OneHotCategorical
+from torchrl.modules import OneHotCategorical, ProbabilisticActor
 
 max_step = 10
 env_id = "CartPole-v1"
-device = "cuda:0"
+device = "mps"
 
 
 def build_single_env():
